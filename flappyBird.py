@@ -1,5 +1,6 @@
-# My first python code.
+import pygame
+x = pygame.init()
 
-print (" Hello World! ")
+gameWindow = pygame.display.set_mode((1200,500))   #dispaly setup
 
-print(" welcome to NextGen_CodeCraft ")
+pygame.display.set_caption("Flappy Bird Game!")
