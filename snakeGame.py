@@ -19,16 +19,28 @@ init_velocity = 5
 fps = 40             # fps = FramePerSecond
 score = 0
 
-food_x = random.randint(20, screen_width)
+food_x = random.randint(20, screen_width )
 food_y = random.randint(20, screen_height)
 
 clock = pygame.time.Clock()
+
+#Showing score on screen
+font = pygame.font.SysFont(None, 50)
+def text_screen(text, color, x, y):
+    screen_text = font.render(text, True, color)
+    gameWindow.blit(screen_text, [x,y])
 
 # Creating Window
 gameWindow = pygame.display.set_mode((screen_width, screen_height))
 
 pygame.display.set_caption("SnakeWithAhmad")
 pygame.display.update()
+
+def plot_snake(gameWindow, color, snk_list, snake_size):
+    for x,y in snk_list:
+        pygame.draw.rect(gameWindow, color, [x, y, snake_size, snake_size]) 
+snk_list = [] 
+snk_length = 1
 
 #Game Specific Variable
 exit_game = False
@@ -65,14 +77,27 @@ while not exit_game:
 
     if abs(snake_x - food_x) < 6 and abs(snake_y - food_y) <6:
         score +=1 
-        print("Score: ", score)
+
         food_x = random.randint(20, screen_width)
         food_y = random.randint(20, screen_height)
 
+        snk_length += 5
+
 
     gameWindow.fill(white)
+    text_screen("Score: "+ str(score * 1), green, 5, 5)
     pygame.draw.rect(gameWindow, green, [food_x,food_y, snake_size, snake_size])                  #Food creation
-    pygame.draw.rect(gameWindow, black, [snake_x, snake_y, snake_size, snake_size])               #Snake character Creation
+
+    head = []
+    head.append(snake_x)
+    head.append(snake_y)
+    snk_list.append(head)
+
+    if len(snk_list) > snk_length:
+        del snk_list[0]
+
+    # pygame.draw.rect(gameWindow, black, [snake_x, snake_y, snake_size, snake_size])               #Snake character Creation
+    plot_snake(gameWindow, black, snk_list, snake_size)
     clock.tick(fps)
     pygame.display.update()
 pygame.quit() 
